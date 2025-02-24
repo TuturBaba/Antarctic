@@ -21,7 +21,7 @@ Ce repot Git est dans le cadre de la creation d'un Worflow pour fabriquer un cer
 ### Téléchargement des fichiers
 
 Sur GitHub, téléchargez l’ensemble des fichiers en ZIP :  
-<img src="GitHub.png" alt="download" width="200"/>
+<img src="figure/GitHub.png" alt="download" width="200"/>
 
 ### Importation des fichiers sur Galaxy
 
@@ -31,7 +31,7 @@ Sur GitHub, téléchargez l’ensemble des fichiers en ZIP :
 4. Cliquez sur **Start**, puis, une fois que tout est vert, cliquez sur **Close**.
 5. Attendez que tous les fichiers apparaissent en vert dans l’historique à droite.
 6. Sélectionnez les noms des dossiers correspondants pour chaque figure.  
-   <img src="chose_file.png" alt="choose file" width="300"/>
+   <img src="figure/chose_file.png" alt="choose file" width="300"/>
 
 ### Exécution du workflow
 
@@ -43,7 +43,7 @@ Sur GitHub, téléchargez l’ensemble des fichiers en ZIP :
 
 ## Fig3
 
-<img src="3.png" alt="Fig3" width="600"/>
+<img src="figure/3.png" alt="Fig3" width="600"/>
 
 Le script R de la Figure 3 télécharge, traite et visualise les données sur la concentration de glace de mer en Antarctique. Deux visualisations sont possibles : la concentration de glace pour un mois précis et les anomalies par rapport à la période de référence 1981-2010. Les données proviennent de la NSIDC (National Snow and Ice Data Center) et sont disponibles ici : [https://noaadata.apps.nsidc.org/NOAA/G02135/](https://noaadata.apps.nsidc.org/NOAA/G02135/).
 
