@@ -20,7 +20,7 @@ Ce repot Git est dans le cadre de la creation d'un Worflow pour fabriquer un cer
 
 ### Téléchargement des fichiers
 
-Sur GitHub, téléchargez l’ensemble des fichiers en ZIP :  
+Sur GitHub, téléchargez l’ensemble des fichiers en ZIP puis dezipper :  
 <img src="figure/GitHub.png" alt="download" width="200"/>
 
 ### Importation des fichiers sur Galaxy
