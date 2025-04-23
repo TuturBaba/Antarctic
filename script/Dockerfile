@@ -6,7 +6,7 @@
 # Since Julia installation seems to be complicated we will take the Julia notebook as base and install separate kernels into separate envs
 FROM quay.io/jupyter/julia-notebook:python-3.12
 
-MAINTAINER Björn A. Grüning, bjoern.gruening@gmail.com
+LABEL org.opencontainers.image.authors="Björn A. Grüning, bjoern.gruening@gmail.com"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -17,14 +17,12 @@ RUN conda config --add channels bioconda && \
     conda --version
 
 # Install python and jupyter packages
-RUN conda install --yes \
+RUN conda install --yes \ 
     bioblend galaxy-ie-helpers \
     biopython \
     cloudpickle \
     cython \
     dill \
-    # https://github.com/anaconda/nb_conda_kernels
-    nb_conda_kernels \
     jupytext \
     jupyterlab-geojson \
     jupyterlab-katex \
@@ -32,44 +30,40 @@ RUN conda install --yes \
     patsy \
     pip \
     statsmodels && \
-    ##
-    ## Now create separate environments, that are managed by nb_conda_kernels
-    ##
-    conda create -n ansible-kernel --yes && \
-    conda run -n ansible-kernel pip install ipykernel && \
-    conda run -n ansible-kernel python -m ipykernel install --user --name ansible-kernel --display-name "Ansible Kernel" && \
-    conda run -n base python -m ipykernel install --user --name python3 --display-name "Python 3 " && \
-    conda create -n bash-kernel --yes && \
-    conda run -n bash-kernel pip install bash_kernel && \
-    conda run -n bash-kernel python -m ipykernel install --user --name bash-kernel --display-name "bash" && \
-    conda create -n octave-kernel --yes && \
-    conda run -n octave-kernel pip install octave-kernel && \
-    conda run -n octave-kernel python -m ipykernel install --user --name octave-kernel --display-name "Octave" && \
-    conda create -n python-kernel-3.12 --yes python=3.12 ipykernel && \
-    conda run -n python-kernel-3.12 python -m ipykernel install --user --name python-kernel-3.12 --display-name "Python 3.12" && \
-    conda create -n rlang-kernel --yes r-base r-irkernel r-xml rpy2 \
-    'r-caret' \
-    'r-crayon' \
-    'r-devtools' \
-    'r-e1071' \
-    'r-forecast' \
-    'r-hexbin' \
-    'r-htmltools' \
-    'r-htmlwidgets' \
-    'r-irkernel' \
-    'r-nycflights13' \
-    'r-randomforest' \
-    'r-rcurl' \
-    'r-rmarkdown' \
-    'r-rodbc' \
-    'r-rsqlite' \
-    'r-shiny' \
-    'r-tidymodels' \
-    'r-tidyverse' \
-    'unixodbc' && \
-    conda run -n rlang-kernel R -e 'IRkernel::installspec(user = TRUE)' && \
+    conda create -n bash-kernel --yes bash_kernel=0.10.0 bioblend galaxy-ie-helpers && \
+    conda run -n bash-kernel python -m bash_kernel.install --user && \
+    conda create -n ansible-kernel --yes ansible-kernel=1.0.0 jupyter_client bioblend galaxy-ie-helpers && \
+    conda run -n ansible-kernel python -m ansible_kernel.install && \
+    conda create -n octave-kernel --yes python=3.8 octave_kernel=0.36.0 bioblend galaxy-ie-helpers && \
+    conda run -n octave-kernel python -m octave_kernel install --user && \
+    conda create -n rlang-kernel --yes r-base r-irkernel=1.3.2 r-xml rpy2 bioblend galaxy-ie-helpers \
+    	    'r-caret' \
+	    'r-crayon' \
+	    'r-devtools' \
+	    'r-e1071' \
+	    'r-forecast' \
+	    'r-hexbin' \
+	    'r-htmltools' \
+	    'r-htmlwidgets' \
+	    'r-irkernel' \
+	    'r-nycflights13' \
+	    'r-randomforest' \
+	    'r-rcurl' \
+	    'r-rmarkdown' \
+	    'r-rodbc' \
+	    'r-rsqlite' \
+	    'r-shiny' \
+	    'r-tidymodels' \
+	    'r-tidyverse' \
+	    'unixodbc' && \
+    conda run -n rlang-kernel R -e "IRkernel::installspec(user = TRUE, name = 'rlang-kernel', displayname = 'R')" && \
     conda clean --all -y && \
     chmod a+w+r /opt/conda/ -R
+
+RUN echo 'Sys.setenv(CONDA_PREFIX = "/opt/conda/envs/rlang-kernel")' >> /home/$NB_USER/.Rprofile && \
+    echo 'Sys.setenv(PATH = paste("/opt/conda/envs/rlang-kernel/bin", Sys.getenv("PATH"), sep=":"))' >> /home/$NB_USER/.Rprofile && \
+    echo 'Sys.setenv(PROJ_LIB = "/opt/conda/envs/rlang-kernel/share/proj")' >> /home/$NB_USER/.Rprofile && \
+    chown $NB_USER /home/$NB_USER/.Rprofile
 
 ADD ./startup.sh /startup.sh
 #ADD ./monitor_traffic.sh /monitor_traffic.sh
@@ -124,13 +118,9 @@ RUN mkdir -p /import/jupyter/outputs/ && \
     chown -R $NB_USER:users /home/$NB_USER/ /import /export/ && \
     chmod -R 777 /home/$NB_USER/ /import /export/
 
+##USER jovyan
 
+WORKDIR /import
 
-RUN jupyter kernelspec remove rlang-kernel -y || true 
-
-# Copier le notebook dans le conteneur
-COPY Untitled1.ipynb /home/jovyan/work/
-
-# Script d'entrée pour exécuter à la fois Jupyter et l'exécution du notebook
-CMD jupyter nbconvert --to notebook --execute /home/jovyan/work/Untitled1.ipynb --output /home/jovyan/work/output.ipynb && \
-    jupyter notebook --NotebookApp.token='' --NotebookApp.password='' --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+# Start Jupyter Notebook
+CMD /startup.sh
