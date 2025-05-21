@@ -16,11 +16,32 @@ The workflow and associated scripts are part of a project aimed at automating th
 
 The scripts are intended to run on **[Galaxy Europe](https://usegalaxy.eu/)**.
 You can access the workflow directly here:
-🔗 [Workflow – State of the Environment in Antarctic](https://usegalaxy.eu/u/arthurb/w/worflow-for-representig-state-of-the-environment-in-antarctic)
+[Workflow – State of the Environment in Antarctic](https://usegalaxy.eu/u/arthurb/w/worflow-for-representig-state-of-the-environment-in-antarctic)
+
+
+Usage
+
+To use the workflow:
+
+    Create an account on Galaxy Europe
+
+    Open the workflow link above
+
+    Click "Run"
+
+    Configure the available options and input data
+
+    Launch the workflow to generate the figures
+
+
+**Note:** This error is caused by the **Jupyter Notebook tool**.
+If you encounter it, simply **re-run the job**, and it should work correctly.
+![Error](figure/error_after_process.png)
 
 
 
-
+** Important:** This workflow is still **under development**, so some issues may occur.
+It will continue to improve over time.
 
 
 
