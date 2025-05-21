@@ -4,9 +4,7 @@
 ## Auteur
 Arthur BARREAU - 21 May 2025
 
-Bien sûr ! Voici une version reformulée et propre pour un **README** :
 
----
 
 ## Description
 
