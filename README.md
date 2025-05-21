@@ -23,24 +23,21 @@ Usage
 
 To use the workflow:
 
-    Create an account on Galaxy Europe
-
-    Open the workflow link above
-
-    Click "Run"
-
-    Configure the available options and input data
-
-    Launch the workflow to generate the figures
+- Create an account on Galaxy Europe
+- Open the workflow link above
+- Click "Run"
+- Configure the available options and input data
+- Launch the workflow to generate the figures  
 
 
+  
 **Note:** This error is caused by the **Jupyter Notebook tool**.
 If you encounter it, simply **re-run the job**, and it should work correctly.
-![Error](figure/error_after_process.png)
+<p align="center">
+<img src="figure/error_after_process.png" alt="Error" width="400"/>
+</p>
 
-
-
-** Important:** This workflow is still **under development**, so some issues may occur.
+**Important:** This workflow is still **under development**, so some issues may occur.
 It will continue to improve over time.
 
 
